@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  proyectodesoftware_db_ms_turnos:
+    container_name: proyectodesoftware_db_ms_turnos
+    image: postgres
+    container_name: 'proyectodesoftware_db_ms_turnos'
+    ports:
+      - '5442:5432'
+    environment:
+        POSTGRES_DB: proyectodesoftware
+        POSTGRES_USER: proyectodesoftware
+        POSTGRES_PASSWORD: proyectodesoftware
