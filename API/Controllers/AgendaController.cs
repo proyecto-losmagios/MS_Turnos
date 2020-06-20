@@ -26,9 +26,9 @@ namespace API.Controllers {
         }
 
         [HttpGet]
-        public IActionResult GetAgenda([FromQuery] string q) {
+        public IActionResult GetAgenda([FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] int medico) {
             try {
-                return new JsonResult(_service.SearchAgenda(q)) { StatusCode = 200 };
+                return new JsonResult(_service.SearchAgenda(from, to, medico)) { StatusCode = 200 };
             }
             catch (Exception e) {
                 return BadRequest(e.Message);

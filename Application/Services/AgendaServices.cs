@@ -11,7 +11,7 @@ namespace Application.Services {
 
     public interface IAgendaServices {
         Agenda CreateAgenda(AgendaDto agenda);
-        List<AgendaDto> SearchAgenda(string q);
+        List<AgendaDto> SearchAgenda(DateTime from, DateTime to, int medico);
     }
 
     public class AgendaServices : IAgendaServices {
@@ -37,8 +37,8 @@ namespace Application.Services {
             return entity;
         }
                
-        public List<AgendaDto> SearchAgenda(string q) {
-           return  _query.SearchAgenda(q);
+        public List<AgendaDto> SearchAgenda(DateTime from, DateTime to, int medico) {
+           return  _query.SearchAgenda(from, to, medico);
         }
     }
 }

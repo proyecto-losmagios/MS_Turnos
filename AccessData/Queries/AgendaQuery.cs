@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Reflection.Emit;
 
 using SqlKata.Compilers;
 using SqlKata.Execution;
@@ -21,18 +23,22 @@ namespace AccessData.Queries {
             this.sqlKataCompiler = sqlKataCompiler;
         }
 
-        public List<AgendaDto> SearchAgenda(string search_q) {
+        public List<AgendaDto> SearchAgenda(DateTime from, DateTime to, int medico) {
             var db = new QueryFactory(connection, sqlKataCompiler);
 
             //  TODO Filtrar por fecha!
             var query = db.Query("Agendas")
                 .Select("AgendaId",
                         "MedicoId",
-                        "Fecha");
-                // .When(!string.IsNullOrWhiteSpace(search_q), q => q
-                //     .WhereLike("Nombre", $"%{search_q}%")
-                //     .OrWhereLike("Apellido", $"%{search_q}%")
-                    // );
+                        "Fecha")
+                .When(
+                    !string.IsNullOrWhiteSpace(from.ToString()) &&
+                      !string.IsNullOrWhiteSpace(to.ToString()) &&
+                      !string.IsNullOrWhiteSpace(Convert.ToString(medico)), q => q
+                        .Where("MedicoId", medico)
+                        .WhereDate("Fecha", ">=", from)
+                        .Where("Fecha", "<=", to)
+                ).OrderBy("MedicoId").OrderBy("Fecha");
 
             var result = query.Get<AgendaDto>();
 
