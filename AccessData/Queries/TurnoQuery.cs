@@ -30,11 +30,10 @@ namespace AccessData.Queries {
                         "MedicoDerivacionId",
                         "Estado",
                         "FechaHoraTurno",
-                        "AgendaId");
-                // .When(!string.IsNullOrWhiteSpace(search_q), q => q
-                //     .WhereLike("Nombre", $"%{search_q}%")
-                //     .OrWhereLike("Apellido", $"%{search_q}%")
-                    // );
+                        "AgendaId")
+                .When(!string.IsNullOrWhiteSpace(search_q), q => q
+                    .Where("PacienteId", Int32.Parse(search_q))
+                );
 
             var result = query.Get<TurnoDto>();
 
